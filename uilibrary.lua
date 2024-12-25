@@ -176,6 +176,19 @@ function DropdownClass.new(frame, options, dropdownButton, optionButtons, create
     return self
 end
 
+function DropdownClass:ClearOptions()
+    table.clear(self.options)
+    
+    for _, button in ipairs(self.optionButtons) do
+        button:Destroy()
+    end
+    table.clear(self.optionButtons)
+    
+    self.dropdownButton.Text = "Select..."
+    
+    self.scrollFrame.CanvasSize = UDim2.new(0, 0, 0, 0)
+end
+
 function DropdownClass:Refresh(newOptions, newDefault)
     self.options = newOptions
     self.dropdownButton.Text = newDefault or "Select..."
