@@ -141,6 +141,13 @@ function HyperionUI:GetDropdown(tab, name)
     return nil
 end
 
+function HyperionUI:GetSelectedDropdown(tab, name)
+    if self.elements.dropdowns[tab] and self.elements.dropdowns[tab][name] then
+        return self.elements.dropdowns[tab][name].dropdownButton.Text
+    end
+    return nil
+end
+
 function HyperionUI:GetToggle(tab, name)
     if self.elements.toggles[tab] and self.elements.toggles[tab][name] then
         return self.elements.toggles[tab][name].BackgroundColor3 == Color3.fromRGB(111, 167, 223)
