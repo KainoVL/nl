@@ -1,4 +1,4 @@
-print("You are on version 1.1.5")
+print("You are on version 1.1.4")
 local HyperionUI = {}
 HyperionUI.__index = HyperionUI
 
@@ -174,19 +174,6 @@ function DropdownClass.new(frame, options, dropdownButton, optionButtons, create
     self._createOptionButton = createOptionButton
     self.scrollFrame = scrollFrame
     return self
-end
-
-function DropdownClass:ClearOptions()
-    table.clear(self.options)
-    
-    for _, button in ipairs(self.optionButtons) do
-        button:Destroy()
-    end
-    table.clear(self.optionButtons)
-    
-    self.dropdownButton.Text = "Select..."
-    
-    self.scrollFrame.CanvasSize = UDim2.new(0, 0, 0, 0)
 end
 
 function DropdownClass:Refresh(newOptions, newDefault)
