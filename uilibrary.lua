@@ -874,6 +874,15 @@ function HyperionUI:Toggle()
     self.screenGui.Enabled = not self.screenGui.Enabled
 end
 
+function HyperionUI:SetTitle(newTitle)
+    if self.mainFrame and self.mainFrame:FindFirstChild("TopBar") then
+        local titleLabel = self.mainFrame.TopBar:FindFirstChild("TitleLabel")
+        if titleLabel then
+            titleLabel.Text = newTitle
+        end
+    end
+end
+
 function HyperionUI:SetTheme(mainColor, accentColor)
     self.mainFrame.BackgroundColor3 = mainColor
     for _, tab in ipairs(self.tabs) do
