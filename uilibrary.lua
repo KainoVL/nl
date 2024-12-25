@@ -1,4 +1,4 @@
-print("You are on version 1.0.9")
+print("You are on version 1.1.0")
 local HyperionUI = {}
 HyperionUI.__index = HyperionUI
 
@@ -96,7 +96,7 @@ function HyperionUI.new(name)
     local screenGui = Instance.new("ScreenGui")
     screenGui.Name = name .. "HyperionUI"
     screenGui.ResetOnSpawn = false
-    screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+    screenGui.Parent = gethui()
     self.screenGui = screenGui
     
     local mainFrame = Instance.new("Frame")
@@ -109,6 +109,12 @@ function HyperionUI.new(name)
     createCorner(mainFrame, 10)
     createGlow(mainFrame, Color3.fromRGB(111, 167, 223))
     self.mainFrame = mainFrame
+    
+    self.dropdownContainer = Instance.new("Frame")
+    self.dropdownContainer.Name = "GlobalDropdownContainer"
+    self.dropdownContainer.BackgroundTransparency = 1
+    self.dropdownContainer.Size = UDim2.new(1, 0, 1, 0)
+    self.dropdownContainer.Parent = gethui()
     
     self.tabs = {}
     self.currentTab = nil
@@ -674,20 +680,13 @@ function HyperionUI:CreateDropdown(tab, name, description, options, default, cal
     arrow.ZIndex = 3
     arrow.Parent = dropdownButton
 
-    local dropdownContainer = Instance.new("Frame")
-    dropdownContainer.Name = "DropdownContainer"
-    dropdownContainer.BackgroundTransparency = 1
-    dropdownContainer.Size = UDim2.new(1, 0, 0, 0)
-    dropdownContainer.Parent = self.screenGui
-    dropdownContainer.ZIndex = 100
-    
     local dropdownList = Instance.new("Frame")
-    dropdownList.Name = "DropdownList"
+    dropdownList.Name = name .. "DropdownList"
     dropdownList.Size = UDim2.new(1, 0, 0, math.min(#options * 30 + 35, 235))
     dropdownList.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
     dropdownList.Visible = false
     dropdownList.ZIndex = 20
-    dropdownList.Parent = dropdownContainer
+    dropdownList.Parent = self.dropdownContainer
     createCorner(dropdownList, 5)
     
     local searchBox = Instance.new("TextBox")
@@ -780,10 +779,13 @@ function HyperionUI:CreateDropdown(tab, name, description, options, default, cal
         local spaceBelow = viewportHeight - (buttonAbsolutePosition.Y + buttonAbsoluteSize.Y)
         local spaceAbove = buttonAbsolutePosition.Y
         
-        dropdownContainer.Position = UDim2.new(0, buttonAbsolutePosition.X, 0, buttonAbsolutePosition.Y + buttonAbsoluteSize.Y)
+        dropdownList.Position = UDim2.new(
+            0, buttonAbsolutePosition.X,
+            0, buttonAbsolutePosition.Y + buttonAbsoluteSize.Y
+        )
         
         if spaceBelow < dropdownList.AbsoluteSize.Y and spaceAbove > spaceBelow then
-            dropdownContainer.Position = UDim2.new(
+            dropdownList.Position = UDim2.new(
                 0, buttonAbsolutePosition.X,
                 0, buttonAbsolutePosition.Y - dropdownList.AbsoluteSize.Y
             )
