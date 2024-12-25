@@ -1,4 +1,4 @@
-print("You are on version 1.1.2")
+print("You are on version 1.1.3")
 local HyperionUI = {}
 HyperionUI.__index = HyperionUI
 
@@ -677,7 +677,7 @@ function HyperionUI:CreateDropdown(tab, name, description, options, default, cal
 
     local dropdownList = Instance.new("Frame")
     dropdownList.Name = name .. "DropdownList"
-    dropdownList.Size = UDim2.new(1, 0, 0, math.min(#options * 30 + 35, 235))
+    dropdownList.Size = UDim2.new(1, 0, 0, math.min(#options * 30 + 35, 200))
     dropdownList.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
     dropdownList.Visible = false
     dropdownList.ZIndex = 20
@@ -701,17 +701,18 @@ function HyperionUI:CreateDropdown(tab, name, description, options, default, cal
     
     local scrollFrame = Instance.new("ScrollingFrame")
     scrollFrame.Name = "ScrollFrame"
-    scrollFrame.Size = UDim2.new(1, -4, 1, -35)
-    scrollFrame.Position = UDim2.new(0, 2, 0, 35)
+    scrollFrame.Size = UDim2.new(1, -10, 1, -40)
+    scrollFrame.Position = UDim2.new(0, 5, 0, 35)
     scrollFrame.BackgroundTransparency = 1
     scrollFrame.ScrollBarThickness = 4
     scrollFrame.ScrollBarImageColor3 = Color3.fromRGB(111, 167, 223)
     scrollFrame.ZIndex = 21
     scrollFrame.Parent = dropdownList
-    scrollFrame.AutomaticCanvasSize = Enum.AutomaticSize.Y
-    scrollFrame.CanvasSize = UDim2.new(0, 0, 0, 0)
+    scrollFrame.ClipsDescendants = true
     scrollFrame.ScrollingEnabled = true
     scrollFrame.ElasticBehavior = Enum.ElasticBehavior.Always
+    scrollFrame.CanvasSize = UDim2.new(0, 0, 0, 0)
+    scrollFrame.AutomaticCanvasSize = Enum.AutomaticSize.None  
     
     local optionButtons = {}
     
@@ -737,7 +738,8 @@ function HyperionUI:CreateDropdown(tab, name, description, options, default, cal
             optionButton.BackgroundTransparency = 1
         end)
         
-        optionButton.MouseButton1Click:Connect(function()
+        optionButton.MouseButton1Down:Connect(function()
+            task.wait()  
             dropdownButton.Text = option
             dropdownList.Visible = false
             arrow.Rotation = 0
@@ -762,7 +764,8 @@ function HyperionUI:CreateDropdown(tab, name, description, options, default, cal
             end
         end
         
-        scrollFrame.CanvasSize = UDim2.new(0, 0, 0, visibleCount * 30)
+        local totalHeight = visibleCount * 30
+        scrollFrame.CanvasSize = UDim2.new(0, 0, 0, totalHeight + 10)
     end
     
     for i, option in ipairs(options) do
