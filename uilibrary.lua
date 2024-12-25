@@ -1,4 +1,4 @@
-print("You are on version 1.1.0")
+print("You are on version 1.1.1")
 local HyperionUI = {}
 HyperionUI.__index = HyperionUI
 
@@ -109,12 +109,7 @@ function HyperionUI.new(name)
     createCorner(mainFrame, 10)
     createGlow(mainFrame, Color3.fromRGB(111, 167, 223))
     self.mainFrame = mainFrame
-    
-    self.dropdownContainer = Instance.new("Frame")
-    self.dropdownContainer.Name = "GlobalDropdownContainer"
-    self.dropdownContainer.BackgroundTransparency = 1
-    self.dropdownContainer.Size = UDim2.new(1, 0, 1, 0)
-    self.dropdownContainer.Parent = gethui()
+
     
     self.tabs = {}
     self.currentTab = nil
@@ -686,7 +681,7 @@ function HyperionUI:CreateDropdown(tab, name, description, options, default, cal
     dropdownList.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
     dropdownList.Visible = false
     dropdownList.ZIndex = 20
-    dropdownList.Parent = self.dropdownContainer
+    dropdownList.Parent = self.screenGui
     createCorner(dropdownList, 5)
     
     local searchBox = Instance.new("TextBox")
@@ -779,16 +774,16 @@ function HyperionUI:CreateDropdown(tab, name, description, options, default, cal
         local spaceBelow = viewportHeight - (buttonAbsolutePosition.Y + buttonAbsoluteSize.Y)
         local spaceAbove = buttonAbsolutePosition.Y
         
-        dropdownList.Position = UDim2.new(
-            0, buttonAbsolutePosition.X,
-            0, buttonAbsolutePosition.Y + buttonAbsoluteSize.Y
-        )
+        local newX = buttonAbsolutePosition.X - self.screenGui.AbsolutePosition.X
+        local newY = (buttonAbsolutePosition.Y + buttonAbsoluteSize.Y) - self.screenGui.AbsolutePosition.Y
         
         if spaceBelow < dropdownList.AbsoluteSize.Y and spaceAbove > spaceBelow then
             dropdownList.Position = UDim2.new(
-                0, buttonAbsolutePosition.X,
-                0, buttonAbsolutePosition.Y - dropdownList.AbsoluteSize.Y
+                0, newX,
+                0, (buttonAbsolutePosition.Y - dropdownList.AbsoluteSize.Y) - self.screenGui.AbsolutePosition.Y
             )
+        else
+            dropdownList.Position = UDim2.new(0, newX, 0, newY)
         end
         
         dropdownList.Size = UDim2.new(0, buttonAbsoluteSize.X, 0, math.min(#options * 30 + 35, 235))
