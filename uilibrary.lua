@@ -1,4 +1,4 @@
-print("You are on version 1.1.1")
+print("You are on version 1.1.2")
 local HyperionUI = {}
 HyperionUI.__index = HyperionUI
 
@@ -708,6 +708,10 @@ function HyperionUI:CreateDropdown(tab, name, description, options, default, cal
     scrollFrame.ScrollBarImageColor3 = Color3.fromRGB(111, 167, 223)
     scrollFrame.ZIndex = 21
     scrollFrame.Parent = dropdownList
+    scrollFrame.AutomaticCanvasSize = Enum.AutomaticSize.Y
+    scrollFrame.CanvasSize = UDim2.new(0, 0, 0, 0)
+    scrollFrame.ScrollingEnabled = true
+    scrollFrame.ElasticBehavior = Enum.ElasticBehavior.Always
     
     local optionButtons = {}
     
